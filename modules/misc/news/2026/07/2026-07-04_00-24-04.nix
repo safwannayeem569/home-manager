@@ -1,8 +1,8 @@
 {
   config,
-  pkgs,
   ...
-}: {
+}:
+{
   time = "2026-07-03T18:24:04+00:00";
   condition = config.programs.nushell.enable;
   message = ''
