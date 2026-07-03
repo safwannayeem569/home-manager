@@ -125,7 +125,7 @@ in
     };
 
     extraConfigLast = lib.mkOption {
-      type = types.lines;
+      type = types.nullOr (linesOrSource "config.nu");
       default = "";
       description = ''
         Additional configuration to add to the very end of the nushell configuration file.
