@@ -238,7 +238,7 @@ in
           writeConfig =
             cfg.configFile != null
             || cfg.extraConfig != ""
-            || cfg.extraConfigLast != ""
+            || cfg.extraConfigLast != null
             || aliasesStr != ""
             || cfg.settings != { }
             || cfg.environmentVariables != { };
@@ -284,7 +284,7 @@ in
             (lib.mkIf (cfg.configFile != null) cfg.configFile.text)
             cfg.extraConfig
             aliasesStr
-            cfg.extraConfigLast
+            (lib.mkIf (cfg.extraConfigLast != null) cfg.extraConfigLast.text)
           ];
         }
       )
