@@ -124,6 +124,14 @@ in
       '';
     };
 
+    extraConfigLast = lib.mkOption {
+      type = types.lines;
+      default = "";
+      description = ''
+        Additional configuration to add to the very end of the nushell configuration file.
+      '';
+    };
+
     extraEnv = lib.mkOption {
       type = types.lines;
       default = "";
@@ -230,6 +238,7 @@ in
           writeConfig =
             cfg.configFile != null
             || cfg.extraConfig != ""
+            || cfg.extraConfigLast != ""
             || aliasesStr != ""
             || cfg.settings != { }
             || cfg.environmentVariables != { };
@@ -275,6 +284,7 @@ in
             (lib.mkIf (cfg.configFile != null) cfg.configFile.text)
             cfg.extraConfig
             aliasesStr
+            cfg.extraConfigLast
           ];
         }
       )
