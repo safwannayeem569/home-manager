@@ -31,3 +31,4 @@ let config = {
 alias "ll" = ls -a
 alias "multi word alias" = cd -
 alias "z" = __zoxide_z
+alias "cd" = __zoxide_z
