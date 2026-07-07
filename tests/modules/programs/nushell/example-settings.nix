@@ -30,6 +30,10 @@
       }
     '';
 
+    extraConfigLast.text = ''
+      alias "cd" = __zoxide_z
+    '';
+
     plugins = [ realPkgs.nushellPlugins.formats ];
 
     shellAliases = {
