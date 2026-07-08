@@ -31,13 +31,13 @@
     '';
 
     extraConfig = lib.mkMerge [
-        (lib.mkOrder 10 ''
-          # Higher Priority, Added first
-        '')
-        (lib.mkOrder 2000 ''
-          # Lower Priority, Added Relatively later
-        '')
-      ];
+      (lib.mkOrder 10 ''
+        # Higher Priority, Added first
+      '')
+      (lib.mkOrder 2000 ''
+        # Lower Priority, Added Relatively later
+      '')
+    ];
 
     plugins = [ realPkgs.nushellPlugins.formats ];
 
