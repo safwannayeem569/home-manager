@@ -280,7 +280,7 @@ in
               in
               lib.mkIf (cfg.settings != { }) settingsLines
             ))
-            (lib.mkOrder 900 (if cfg.configFile.text != null then cfg.configFile.text else ""))
+            (lib.mkOrder 900 (lib.concatLines (lib.mkIf (cfg.configFile != null)) cfg.configFile.text)))
             (lib.mkOrder 1200 (cfg.extraConfig))
             (lib.mkOrder 1500 aliasesStr)
           ];
