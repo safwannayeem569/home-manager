@@ -119,16 +119,16 @@ in
     extraConfig = lib.mkOption {
       type = types.lines;
       default = "";
+      example = lib.mkMerge [
+        (lib.mkOrder 10 ''
+          # Higher Priority, Added first
+        '')
+        (lib.mkOrder 2000 ''
+          # Lower Priority, Added Relatively later
+        '')
+      ];
       description = ''
-        Additional configuration to add to the nushell configuration file.
-      '';
-    };
-
-    extraConfigLast = lib.mkOption {
-      type = types.nullOr (linesOrSource "config.nu");
-      default = null;
-      description = ''
-        Additional configuration to add to the very end of the nushell configuration file.
+        Additional configuration to add to the nushell configuration file. To specify the order, use `lib.mkOrder`.
       '';
     };
 
@@ -238,7 +238,6 @@ in
           writeConfig =
             cfg.configFile != null
             || cfg.extraConfig != ""
-            || cfg.extraConfigLast != null
             || aliasesStr != ""
             || cfg.settings != { }
             || cfg.environmentVariables != { };
@@ -249,7 +248,7 @@ in
         in
         lib.mkIf writeConfig {
           "${cfg.configDir}/config.nu".text = lib.mkMerge [
-            (
+            (lib.mkOrder 400 (
               let
                 hasEnvVars = cfg.environmentVariables != { };
                 envVarsStr = ''
@@ -257,8 +256,8 @@ in
                 '';
               in
               lib.mkIf hasEnvVars envVarsStr
-            )
-            (
+            ))
+            (lib.mkOrder 600 (
               let
                 flattenSettings =
                   let
@@ -280,11 +279,10 @@ in
 
               in
               lib.mkIf (cfg.settings != { }) settingsLines
-            )
-            (lib.mkIf (cfg.configFile != null) cfg.configFile.text)
-            cfg.extraConfig
-            aliasesStr
-            (lib.mkIf (cfg.extraConfigLast != null) cfg.extraConfigLast.text)
+            ))
+            (lib.mkOrder 900 (lib.mkIf (cfg.configFile != null)) cfg.configFile.text)
+            (lib.mkOrder 1200 (cfg.extraConfig))
+            (lib.mkOrder 1500 (aliasesStr))
           ];
         }
       )
