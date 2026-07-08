@@ -282,7 +282,7 @@ in
             ))
             (lib.mkOrder 900 (lib.mkIf (cfg.configFile != null)) cfg.configFile.text)
             (lib.mkOrder 1200 (cfg.extraConfig))
-            (lib.mkOrder 1500 (aliasesStr))
+            (lib.mkOrder 1500 aliasesStr)
           ];
         }
       )
